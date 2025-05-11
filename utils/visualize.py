@@ -4,10 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 import torch
 from PIL import Image
 import torchvision.transforms as T
+import torch.nn.functional as F
 
 def load_results(results_dir: str) -> Dict[str, Any]:
     """Load all results from the results directory."""
@@ -118,33 +119,105 @@ def plot_model_comparison(results: Dict[str, Any], output_dir: Path):
                 plt.savefig(output_dir / f"model_comparison_{metric}_{dataset}_{resolution}.png")
                 plt.close()
 
-def visualize_attention_maps(model, image, output_dir: Path, model_name: str, dataset: str, resolution: int):
+def visualize_attention_maps(model: torch.nn.Module,
+                           image: torch.Tensor,
+                           output_path: Path,
+                           model_name: str,
+                           dataset: str,
+                           resolution: int,
+                           num_heads: Optional[int] = None) -> None:
     """Visualize attention maps for transformer models."""
-    if hasattr(model, 'get_attention_maps'):
+    model.eval()
+    
+    # Get attention maps
+    with torch.no_grad():
         attention_maps = model.get_attention_maps(image)
-        if attention_maps is not None:
-            for i, attn_map in enumerate(attention_maps):
-                plt.figure(figsize=(8, 8))
-                plt.imshow(attn_map[0].detach().cpu().numpy(), cmap='viridis')
-                plt.title(f'Attention Map {i+1}')
-                plt.colorbar()
-                plt.savefig(output_dir / f"attention_map_{model_name}_{dataset}_{resolution}_{i+1}.png")
-                plt.close()
+    
+    # Convert attention maps to numpy
+    attention_maps = attention_maps.cpu().numpy()
+    
+    # Get number of heads
+    if num_heads is None:
+        num_heads = attention_maps.shape[1]
+    
+    # Create figure
+    n_cols = min(4, num_heads)
+    n_rows = (num_heads + n_cols - 1) // n_cols
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(4*n_cols, 4*n_rows))
+    axes = axes.flatten()
+    
+    # Plot attention maps
+    for i in range(num_heads):
+        attn_map = attention_maps[0, i]  # Get first image, i-th head
+        attn_map = (attn_map - attn_map.min()) / (attn_map.max() - attn_map.min())
+        
+        # Reshape to square if possible
+        size = int(np.sqrt(attn_map.shape[0]))
+        if size * size == attn_map.shape[0]:
+            attn_map = attn_map.reshape(size, size)
+        
+        # Plot
+        sns.heatmap(attn_map, ax=axes[i], cmap='viridis')
+        axes[i].set_title(f'Head {i+1}')
+        axes[i].axis('off')
+    
+    # Remove empty subplots
+    for i in range(num_heads, len(axes)):
+        fig.delaxes(axes[i])
+    
+    # Add title and save
+    plt.suptitle(f'Attention Maps - {model_name} on {dataset} at {resolution}x{resolution}')
+    plt.tight_layout()
+    plt.savefig(output_path)
+    plt.close()
 
-def visualize_feature_maps(model, image, output_dir: Path, model_name: str, dataset: str, resolution: int):
-    """Visualize feature maps for all models."""
-    if hasattr(model, 'get_feature_maps'):
+def visualize_feature_maps(model: torch.nn.Module,
+                         image: torch.Tensor,
+                         output_path: Path,
+                         model_name: str,
+                         dataset: str,
+                         resolution: int,
+                         max_features: int = 64) -> None:
+    """Visualize feature maps from intermediate layers."""
+    model.eval()
+    
+    # Get feature maps
+    with torch.no_grad():
         feature_maps = model.get_feature_maps(image)
-        if feature_maps is not None:
-            for i, feat_map in enumerate(feature_maps):
-                # Select first channel for visualization
-                feat = feat_map[0, 0].detach().cpu().numpy()
-                plt.figure(figsize=(8, 8))
-                plt.imshow(feat, cmap='viridis')
-                plt.title(f'Feature Map {i+1}')
-                plt.colorbar()
-                plt.savefig(output_dir / f"feature_map_{model_name}_{dataset}_{resolution}_{i+1}.png")
-                plt.close()
+    
+    # Convert to numpy
+    feature_maps = feature_maps.cpu().numpy()
+    
+    # Select subset of features if too many
+    if feature_maps.shape[1] > max_features:
+        indices = np.random.choice(feature_maps.shape[1], max_features, replace=False)
+        feature_maps = feature_maps[:, indices]
+    
+    # Create figure
+    n_cols = 8
+    n_rows = (feature_maps.shape[1] + n_cols - 1) // n_cols
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(2*n_cols, 2*n_rows))
+    axes = axes.flatten()
+    
+    # Plot feature maps
+    for i in range(feature_maps.shape[1]):
+        feat_map = feature_maps[0, i]  # Get first image, i-th feature
+        feat_map = (feat_map - feat_map.min()) / (feat_map.max() - feat_map.min())
+        
+        # Plot
+        axes[i].imshow(feat_map, cmap='viridis')
+        axes[i].set_title(f'Feature {i+1}')
+        axes[i].axis('off')
+    
+    # Remove empty subplots
+    for i in range(feature_maps.shape[1], len(axes)):
+        fig.delaxes(axes[i])
+    
+    # Add title and save
+    plt.suptitle(f'Feature Maps - {model_name} on {dataset} at {resolution}x{resolution}')
+    plt.tight_layout()
+    plt.savefig(output_path)
+    plt.close()
 
 def main():
     # Load results
