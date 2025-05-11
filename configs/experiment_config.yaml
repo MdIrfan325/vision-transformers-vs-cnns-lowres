@@ -1,0 +1,190 @@
+# Dataset configurations
+datasets:
+  cifar10:
+    enabled: true
+    root_dir: "data/cifar10"
+    target_sizes: [32, 16, 8]
+  fashion_mnist:
+    enabled: true
+    root_dir: "data/fashion_mnist"
+    target_sizes: [28, 14, 7]
+  svhn:
+    enabled: true
+    root_dir: "data/svhn"
+    target_sizes: [32, 16, 8]
+
+# Model configurations
+models:
+  # CNN Models
+  lenet5:
+    enabled: true
+    type: "cnn"
+    params:
+      num_classes: 10
+      input_channels: 3
+  
+  resnet18:
+    enabled: true
+    type: "cnn"
+    params:
+      num_classes: 10
+      input_channels: 3
+  
+  efficientnetv2_s:
+    enabled: true
+    type: "cnn"
+    params:
+      num_classes: 10
+      input_channels: 3
+      dims: [64, 80, 96]
+      channels: [16, 24, 24, 48, 48, 64, 64, 80, 80, 320]
+      kernel_size: 3
+      patch_size: [2, 2]
+      depth: 2
+      mlp_dim: 256
+  
+  mobilenetv2:
+    enabled: true
+    type: "cnn"
+    params:
+      num_classes: 10
+      input_channels: 3
+      width_mult: 1.0
+  
+  convmixer:
+    enabled: true
+    type: "cnn"
+    params:
+      num_classes: 10
+      input_channels: 3
+      dim: 256
+      depth: 8
+      kernel_size: 9
+      patch_size: 2
+  
+  repvgg:
+    enabled: true
+    type: "cnn"
+    params:
+      num_classes: 10
+      input_channels: 3
+      num_blocks: [2, 4, 14, 1]
+      width_multiplier: [0.75, 0.75, 0.75, 2.5]
+  
+  # Transformer Models
+  vit:
+    enabled: true
+    type: "transformer"
+    params:
+      num_classes: 10
+      input_channels: 3
+      img_size: 32
+      patch_size: 4
+      embed_dim: 192
+      depth: 12
+      num_heads: 12
+      mlp_ratio: 4.0
+  
+  deit:
+    enabled: true
+    type: "transformer"
+    params:
+      num_classes: 10
+      input_channels: 3
+      img_size: 32
+      patch_size: 4
+      embed_dim: 192
+      depth: 12
+      num_heads: 3
+      mlp_ratio: 4.0
+  
+  mobilevit:
+    enabled: true
+    type: "transformer"
+    params:
+      num_classes: 10
+      input_channels: 3
+      dims: [64, 80, 96]
+      channels: [16, 24, 24, 48, 48, 64, 64, 80, 80, 320]
+      kernel_size: 3
+      patch_size: [2, 2]
+      depth: 2
+      mlp_dim: 256
+  
+  swin:
+    enabled: true
+    type: "transformer"
+    params:
+      num_classes: 10
+      input_channels: 3
+      img_size: 32
+      patch_size: 4
+      embed_dim: 96
+      depths: [2, 2, 6, 2]
+      num_heads: [3, 6, 12, 24]
+      window_size: 7
+      mlp_ratio: 4.0
+  
+  cvt:
+    enabled: true
+    type: "transformer"
+    params:
+      num_classes: 10
+      input_channels: 3
+      img_size: 32
+      embed_dims: [64, 192, 384]
+      depths: [1, 4, 3]
+      num_heads: [1, 3, 6]
+      mlp_ratios: [4, 4, 4]
+
+# Training configurations
+training:
+  batch_size: 128
+  num_epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  scheduler:
+    type: "cosine"
+    warmup_epochs: 5
+  mixed_precision: true
+  gradient_clip: 1.0
+  
+  # Data augmentation
+  augmentation:
+    enabled: true
+    random_crop: true
+    random_horizontal_flip: true
+    color_jitter: true
+    random_rotation: 15
+    cutmix_prob: 0.5
+    mixup_prob: 0.5
+
+# Evaluation configurations
+evaluation:
+  metrics:
+    - accuracy
+    - model_size
+    - flops
+    - inference_time
+    - noise_robustness
+    - confusion_matrix
+  noise_test:
+    types: ["gaussian", "salt_pepper"]
+    levels: [0.1, 0.2, 0.3, 0.4, 0.5]
+
+# Visualization configurations
+visualization:
+  save_attention_maps: true
+  save_feature_maps: true
+  save_training_curves: true
+  save_confusion_matrices: true
+  save_gradcam: true
+
+# Logging configurations
+logging:
+  wandb:
+    enabled: true
+    project: "low_res_vision"
+    entity: null
+  save_dir: "results"
+  log_interval: 100 
