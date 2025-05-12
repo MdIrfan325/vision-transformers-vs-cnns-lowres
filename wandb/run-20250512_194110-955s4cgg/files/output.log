@@ -1,0 +1,16 @@
+Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to data/cifar10\cifar-10-python.tar.gz
+100%|████████████████████████████████████████████████| 170498071/170498071 [00:52<00:00, 3267845.59it/s]
+Extracting data/cifar10\cifar-10-python.tar.gz to data/cifar10
+Files already downloaded and verified
+
+Training lenet5 on cifar10 at 32x32
+Traceback (most recent call last):
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 189, in <module>
+    main()
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 130, in main
+    model = get_model(model_name, model_config, num_classes)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 19, in get_model
+    model_class = getattr(model_module, model_name.replace('-', '').title())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'models.cnn.lenet5' has no attribute 'Lenet5'

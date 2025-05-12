@@ -1,0 +1,35 @@
+{
+  "os": "Windows-10-10.0.22631-SP0",
+  "python": "CPython 3.11.9",
+  "startedAt": "2025-05-12T14:11:10.648171Z",
+  "args": [
+    "--config",
+    "configs/experiment_config.yaml"
+  ],
+  "program": "C:\\Users\\mi325\\OneDrive\\Desktop\\FSD\\train.py",
+  "codePath": "train.py",
+  "git": {
+    "remote": "https://github.com/MdIrfan325/vision-transformers-vs-cnns-lowres.git",
+    "commit": "1f44d82e337244c4333f4613d2320c98dfee99f2"
+  },
+  "email": "mi3253050@gmail.com",
+  "root": "C:\\Users\\mi325\\OneDrive\\Desktop\\FSD",
+  "host": "DESKTOP-LHSC35R",
+  "executable": "C:\\Users\\mi325\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+  "codePathLocal": "train.py",
+  "cpu_count": 10,
+  "cpu_count_logical": 12,
+  "disk": {
+    "/": {
+      "total": "488542040064",
+      "used": "217474154496"
+    }
+  },
+  "memory": {
+    "total": "16849293312"
+  },
+  "cpu": {
+    "count": 10,
+    "countLogical": 12
+  }
+}

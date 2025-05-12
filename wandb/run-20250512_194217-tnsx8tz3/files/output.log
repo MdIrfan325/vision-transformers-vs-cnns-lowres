@@ -1,0 +1,14 @@
+Files already downloaded and verified
+Files already downloaded and verified
+
+Training lenet5 on cifar10 at 32x32
+Traceback (most recent call last):
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\run.py", line 11, in <module>
+    main()
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 130, in main
+    model = get_model(model_name, model_config, num_classes)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 19, in get_model
+    model_class = getattr(model_module, model_name.replace('-', '').title())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'models.cnn.lenet5' has no attribute 'Lenet5'

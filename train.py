@@ -16,8 +16,31 @@ def get_model(model_name: str, model_config: dict, num_classes: int) -> nn.Modul
     """Dynamically import and instantiate model."""
     model_type = model_config['type']
     model_module = importlib.import_module(f'models.{model_type}.{model_name}')
-    model_class = getattr(model_module, model_name.replace('-', '').title())
-    return model_class(num_classes=num_classes, **model_config['params'])
+    
+    # Handle special cases for model class names
+    model_class_map = {
+        'lenet5': 'LeNet5',
+        'resnet18': 'ResNet18',
+        'efficientnetv2_s': 'EfficientNetV2S',
+        'mobilenetv2': 'MobileNetV2',
+        'convmixer': 'ConvMixer',
+        'repvgg': 'RepVGG',
+        'vit': 'ViT',
+        'deit': 'DeiT',
+        'mobilevit': 'MobileViT',
+        'swin': 'SwinTransformer',
+        'cvt': 'CvT'
+    }
+    
+    model_class_name = model_class_map.get(model_name, model_name.replace('-', '').title())
+    model_class = getattr(model_module, model_class_name)
+    
+    # Remove num_classes from params if it exists to avoid duplicate argument
+    params = model_config['params'].copy()
+    if 'num_classes' in params:
+        del params['num_classes']
+    
+    return model_class(num_classes=num_classes, **params)
 
 def train_epoch(model: nn.Module, 
                 train_loader: torch.utils.data.DataLoader,

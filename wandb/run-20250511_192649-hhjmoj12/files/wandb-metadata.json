@@ -1,0 +1,27 @@
+{
+  "os": "Windows-10-10.0.22631-SP0",
+  "python": "CPython 3.11.9",
+  "startedAt": "2025-05-11T13:56:49.316678Z",
+  "program": "C:\\Users\\mi325\\OneDrive\\Desktop\\FSD\\train.py",
+  "codePath": "train.py",
+  "email": "mi3253050@gmail.com",
+  "root": "C:\\Users\\mi325\\OneDrive\\Desktop\\FSD",
+  "host": "DESKTOP-LHSC35R",
+  "executable": "C:\\Users\\mi325\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+  "codePathLocal": "train.py",
+  "cpu_count": 10,
+  "cpu_count_logical": 12,
+  "disk": {
+    "/": {
+      "total": "488542040064",
+      "used": "213676388352"
+    }
+  },
+  "memory": {
+    "total": "16849293312"
+  },
+  "cpu": {
+    "count": 10,
+    "countLogical": 12
+  }
+}

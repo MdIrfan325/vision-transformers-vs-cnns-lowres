@@ -1,0 +1,14 @@
+Files already downloaded and verified
+Files already downloaded and verified
+
+Training lenet5 on cifar10 at 32x32
+Traceback (most recent call last):
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 206, in <module>
+    main()
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 147, in main
+    model = get_model(model_name, model_config, num_classes)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mi325\OneDrive\Desktop\FSD\train.py", line 37, in get_model
+    return model_class(num_classes=num_classes, **model_config['params'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: models.cnn.lenet5.LeNet5() got multiple values for keyword argument 'num_classes'

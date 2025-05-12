@@ -1,0 +1,270 @@
+_wandb:
+    value:
+        cli_version: 0.19.11
+        m: []
+        python_version: 3.11.9
+        t:
+            "1":
+                - 1
+                - 41
+                - 55
+            "2":
+                - 1
+                - 41
+                - 55
+            "3":
+                - 16
+                - 23
+                - 55
+            "4": 3.11.9
+            "5": 0.19.11
+            "8":
+                - 3
+                - 5
+            "12": 0.19.11
+            "13": windows-amd64
+datasets:
+    value:
+        cifar10:
+            enabled: true
+            root_dir: data/cifar10
+            target_sizes:
+                - 32
+                - 16
+                - 8
+        fashion_mnist:
+            enabled: true
+            root_dir: data/fashion_mnist
+            target_sizes:
+                - 28
+                - 14
+                - 7
+        svhn:
+            enabled: true
+            root_dir: data/svhn
+            target_sizes:
+                - 32
+                - 16
+                - 8
+evaluation:
+    value:
+        metrics:
+            - accuracy
+            - model_size
+            - flops
+            - inference_time
+            - noise_robustness
+            - confusion_matrix
+        noise_test:
+            levels:
+                - 0.1
+                - 0.2
+                - 0.3
+                - 0.4
+                - 0.5
+            types:
+                - gaussian
+                - salt_pepper
+logging:
+    value:
+        log_interval: 100
+        save_dir: results
+        wandb:
+            enabled: true
+            entity: null
+            project: low_res_vision
+models:
+    value:
+        convmixer:
+            enabled: true
+            params:
+                depth: 8
+                dim: 256
+                input_channels: 3
+                kernel_size: 9
+                num_classes: 10
+                patch_size: 2
+            type: cnn
+        cvt:
+            enabled: true
+            params:
+                depths:
+                    - 1
+                    - 4
+                    - 3
+                embed_dims:
+                    - 64
+                    - 192
+                    - 384
+                img_size: 32
+                input_channels: 3
+                mlp_ratios:
+                    - 4
+                    - 4
+                    - 4
+                num_classes: 10
+                num_heads:
+                    - 1
+                    - 3
+                    - 6
+            type: transformer
+        deit:
+            enabled: true
+            params:
+                depth: 12
+                embed_dim: 192
+                img_size: 32
+                input_channels: 3
+                mlp_ratio: 4
+                num_classes: 10
+                num_heads: 3
+                patch_size: 4
+            type: transformer
+        efficientnetv2_s:
+            enabled: true
+            params:
+                channels:
+                    - 16
+                    - 24
+                    - 24
+                    - 48
+                    - 48
+                    - 64
+                    - 64
+                    - 80
+                    - 80
+                    - 320
+                depth: 2
+                dims:
+                    - 64
+                    - 80
+                    - 96
+                input_channels: 3
+                kernel_size: 3
+                mlp_dim: 256
+                num_classes: 10
+                patch_size:
+                    - 2
+                    - 2
+            type: cnn
+        lenet5:
+            enabled: true
+            params:
+                input_channels: 3
+                num_classes: 10
+            type: cnn
+        mobilenetv2:
+            enabled: true
+            params:
+                input_channels: 3
+                num_classes: 10
+                width_mult: 1
+            type: cnn
+        mobilevit:
+            enabled: true
+            params:
+                channels:
+                    - 16
+                    - 24
+                    - 24
+                    - 48
+                    - 48
+                    - 64
+                    - 64
+                    - 80
+                    - 80
+                    - 320
+                depth: 2
+                dims:
+                    - 64
+                    - 80
+                    - 96
+                input_channels: 3
+                kernel_size: 3
+                mlp_dim: 256
+                num_classes: 10
+                patch_size:
+                    - 2
+                    - 2
+            type: transformer
+        repvgg:
+            enabled: true
+            params:
+                input_channels: 3
+                num_blocks:
+                    - 2
+                    - 4
+                    - 14
+                    - 1
+                num_classes: 10
+                width_multiplier:
+                    - 0.75
+                    - 0.75
+                    - 0.75
+                    - 2.5
+            type: cnn
+        resnet18:
+            enabled: true
+            params:
+                input_channels: 3
+                num_classes: 10
+            type: cnn
+        swin:
+            enabled: true
+            params:
+                depths:
+                    - 2
+                    - 2
+                    - 6
+                    - 2
+                embed_dim: 96
+                img_size: 32
+                input_channels: 3
+                mlp_ratio: 4
+                num_classes: 10
+                num_heads:
+                    - 3
+                    - 6
+                    - 12
+                    - 24
+                patch_size: 4
+                window_size: 7
+            type: transformer
+        vit:
+            enabled: true
+            params:
+                depth: 12
+                embed_dim: 192
+                img_size: 32
+                input_channels: 3
+                mlp_ratio: 4
+                num_classes: 10
+                num_heads: 12
+                patch_size: 4
+            type: transformer
+training:
+    value:
+        augmentation:
+            color_jitter: true
+            cutmix_prob: 0.5
+            enabled: true
+            mixup_prob: 0.5
+            random_crop: true
+            random_horizontal_flip: true
+            random_rotation: 15
+        batch_size: 128
+        gradient_clip: 1
+        learning_rate: 0.001
+        mixed_precision: true
+        num_epochs: 100
+        scheduler:
+            type: cosine
+            warmup_epochs: 5
+        weight_decay: 0.0001
+visualization:
+    value:
+        save_attention_maps: true
+        save_confusion_matrices: true
+        save_feature_maps: true
+        save_gradcam: true
+        save_training_curves: true
